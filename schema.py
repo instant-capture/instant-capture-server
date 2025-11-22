@@ -22,7 +22,7 @@ class TrainSession(Base):
     sessionId: Mapped[int] = mapped_column(INTEGER(unsigned=True), primary_key=True, autoincrement=True)
     startedAt: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
     endedAt: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
-    totalHit: Mapped[int] = mapped_column(INTEGER, nullable=False),
+    totalHit: Mapped[int] = mapped_column(INTEGER, nullable=False)
     userId: Mapped[int] = mapped_column(INTEGER(unsigned=True), ForeignKey("account.userId"), nullable=False)
 
     account: Mapped["Account"] = relationship("Account", back_populates="sessions")
@@ -33,8 +33,8 @@ class Hit(Base):
     __tablename__ = "hit"
 
     hitId: Mapped[int] = mapped_column(INTEGER(unsigned=True), primary_key=True)
-    sessionId: Mapped[int] = mapped_column(INTEGER(unsigned=True), nullable=False, index=True)
-    hitAt: Mapped[datetime] = mapped_column(DATETIME, nullable=False),
+    sessionId: Mapped[int] = mapped_column(INTEGER(unsigned=True), ForeignKey("train_session.sessionId"), nullable=False)
+    hitAt: Mapped[datetime] = mapped_column(DATETIME, nullable=False)
     isHit: Mapped[bool] = mapped_column(BOOLEAN, nullable=False)
     
     train_session: Mapped["TrainSession"] = relationship("TrainSession", back_populates="hits")

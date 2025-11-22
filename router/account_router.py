@@ -6,3 +6,7 @@ router = APIRouter(prefix="/account", tags=["account"])
 @router.post("")
 async def create_account(userName: str = Form(), userImage: UploadFile = File(), service: AccountService = Depends()):
     return service.create_account(userName, await userImage.read())
+
+@router.post("/login")
+async def login(userImage: UploadFile = File(), service: AccountService = Depends()):
+    return service.login(await userImage.read())

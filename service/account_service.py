@@ -38,3 +38,26 @@ class AccountService:
         )
 
         return response
+    
+    def login(self, userImage: bytes):
+        
+
+        login_token = create_token(
+            payload={
+                "userId": encode_id(1),
+                "userName": "이재준"
+            },
+            expire=86400 # 하루
+        )
+        
+        response = Response(status_code=201)
+        response.set_cookie(
+            key="login_token",
+            value=login_token,
+            max_age=86400, # 하루
+            httponly=True,
+            samesite="strict",
+            secure = not COOKIE_SECURE_OPTION is None
+        )
+
+        return response
